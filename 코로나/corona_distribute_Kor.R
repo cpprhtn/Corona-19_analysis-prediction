@@ -23,11 +23,11 @@ Jp["province"] -> Jp_Data
 Jp_Data
 
 str(Kor["province"])
+
 require(dplyr)
 require(ggplot2)
 require(shadowtext)
 require(nCov2019)
-#install.packages("shadowtext")
 d <- load_nCov2019()
 dd <- d['global'] %>% 
   as_tibble %>%
@@ -39,7 +39,7 @@ dd <- d['global'] %>%
 breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000)
 p <- ggplot(dd, aes(days_since_100, confirm, color = country)) +
   geom_smooth(method='lm', aes(group=1),
-              data = . , 
+              data = . %>% filter(!country %in% c("Japan", "Singapore")), 
               color='grey10', linetype='dashed') +
   geom_line(size = 0.8) +
   geom_point(pch = 21, size = 1) +
@@ -59,7 +59,7 @@ p <- ggplot(dd, aes(days_since_100, confirm, color = country)) +
   labs(x = "", y = "number", 
        subtitle = "Korea increasing trend")
 print(p)
-install.packages("maps")
+#install.packages("maps")
 library('maps')
 x = get_nCov2019(lang = 'en')
 plot(x)
