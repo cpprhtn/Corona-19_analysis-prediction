@@ -56,9 +56,11 @@ p <- ggplot(dd, aes(days_since_100, confirm, color = country)) +
   geom_shadowtext(aes(label = paste0(" ",country)), hjust=0, vjust = 0, 
                   data = . %>% group_by(country) %>% top_n(1, days_since_100), 
                   bg.color = "white") +
-  labs(x = "", y = "number", 
+  labs(x = "date", y = "number", 
        subtitle = "Korea increasing trend")
 print(p)
+
+
 #install.packages("maps")
 library('maps')
 x = get_nCov2019(lang = 'en')
@@ -67,4 +69,16 @@ plot(x, region = 'South Korea')
 
 #install.packages("devtools") 
 
+write.csv(dd, "/Users/cpprhtn/Desktop/Kor_data2.csv")
+getwd()
 
+#시각화
+plot(x=Kor_Data$time, y=Kor_Data$cum_confirm)
+p <- ggplot(Kor_Data, aes(time, cum_confirm))
+print(p)
+plot(x=dd$time,y=dd$confirm,type = "o", col = "red", main = "Kor_increasing_trend",
+     xlab = "Date", ylab = "confirm",lty =6, sub = "red = confirm, blue = heal, black = dead")
+lines(dd$time,dd$cum_heal,col="blue")
+points(dd$time,dd$cum_heal,col="blue")
+lines(dd$time,dd$cum_dead)
+points(dd$time,dd$cum_dead)
