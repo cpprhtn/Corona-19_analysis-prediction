@@ -15,14 +15,20 @@ ggplot(d, aes(as.Date(date, "%m.%d"), as.numeric(confirm))) +
 # Korea
 nCov2019_set_country('South Korea') 
 Kor <- load_nCov2019(lang = 'en', source = 'github')
-head(kor['province'])
+head(Kor['province'])
 Kor["province"] -> Kor_Data
-# Japan
-nCov2019_set_country('Japan') 
-Jp["province"] -> Jp_Data
-Jp_Data
 
 str(Kor["province"])
+Kor_Data$province
+
+str(Kor_Data$province)
+Kor_Data$province[2]
+
+
+
+
+
+
 
 require(dplyr)
 require(ggplot2)
