@@ -2,7 +2,7 @@ install.packages("remotes")
 library('remotes')
 library('nCov2019')
 library(ggplot2)
-
+update.packages('nCov2019')
 #세계누적 요약 데이터
 ggplot(d, aes(as.Date(date, "%m.%d"), as.numeric(confirm))) +
   geom_col(fill = 'firebrick') + 
@@ -25,7 +25,7 @@ str(Kor_Data$province)
 Kor_Data$province[2]
 
 
-
+Kor_coda <- Kor_Data[,c(1,3)]
 
 
 
@@ -149,7 +149,7 @@ newd <- dd[,c(1,3,4,5)]
 
 kor_coda <- rbind(kk,newd)
 write.csv(kor_coda, "/Users/cpprhtn/Desktop/Kor_coda.csv")
-
+write.csv(Kor_coda, "/Users/cpprhtn/Desktop/Kor_codaa.csv")
 
 update_coda <- dd[103,c(1,3,4,5)]
 kor_coda <- rbind(kor_coda,update_coda)
@@ -204,3 +204,28 @@ fit_7 <- lm(coda7$confirm ~ coda7$time)
 fit_7$coefficients[[2]] #47.75
 abline(fit_7,col="green", lwd="3")
 
+6/7일기준
+city <- c("합계","서울","부산","대구","인천","광주","대전","울산","태종","경기","강원","충북",
+          "충남","전북","전남","경북","경남","제주","검역")
+count <- c(0:18)
+total <- c("57","27","0","1","6","0","0","1","0","19","0","1","0","0","0","0","0","0","2")
+
+abroad <- c("4","0","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","2")
+
+local <- c("53","27","0","1","6","0","0","0","0","19","0","0","0","0","0","0","0","0","0")
+
+confirmed <- c("11776","974","147","6887","279","32","46","53","47","934","58","61","148","21","20","1383","124","15","547")
+
+isolation <- c("951","319","4","59","161","2","3","6","0","237","4","12","5","2","3","25","2","2","105")
+
+unisolation <- c("10552","651","140","6640","118","30","42","46","47","678","51","49","143","19","17","1304","122","13","442")
+
+death <- c("273","4","3","188","0","0","1","1","0","19","3","0","0","0","0","54","0","0","0")
+
+percent <- c("22.71","10.01","4.31","282.66","9.44","2.2","3.12","4.62","13.73","7.05","3.76","3.81","6.97","1.16","1.07","51.94","3.69","2.24","")
+
+all <- data.frame(count,city,total,abroad,local,confirmed,isolation,unisolation,death,percent)
+
+write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
+
+plot(all$count,all$isolation,col="red",type="c")
