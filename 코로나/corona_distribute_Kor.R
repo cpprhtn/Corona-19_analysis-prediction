@@ -1,4 +1,6 @@
 install.packages("remotes")
+install.packages("extrafont")
+library(extrafont)
 library('remotes')
 library('nCov2019')
 library(ggplot2)
@@ -25,9 +27,9 @@ str(Kor_Data$province)
 Kor_Data$province[2]
 
 
-Kor_coda <- Kor_Data[,c(1,3)]
+Kor_coda <- Kor_Data[,c(1,4,5,6)]
 
-
+coda2 <- Kor_Data[c(1369:1440),c(1,4,5,6)]
 
 
 require(dplyr)
@@ -229,3 +231,36 @@ all <- data.frame(count,city,total,abroad,local,confirmed,isolation,unisolation,
 write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
 
 plot(all$count,all$isolation,col="red",type="c")
+
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(reshape2)
+
+read.csv("/Users/cpprhtn/Desktop/Kor_coda.csv") -> update_coda
+update_coda <- update_coda[,c(2:5)]
+up_coda <- rbind(update_coda,coda3)
+coda2$confirm <- coda2$cum_confirm
+coda3 <- coda2[,c(1,5,3,4)]
+str(update_coda)
+update_coda$time <- as.Date(update_coda$time)
+write.csv(up_coda, "/Users/cpprhtn/Desktop/update_coda.csv") # 누적확진자 
+write.csv(kor_coda, "/Users/cpprhtn/Desktop/coda2.csv") #일일 확진자
+
+
+kor_coda <- kor_coda %>% select(time, confirm, cum_heal, cum_dead)
+str(kor_coda)
+kor_coda$time <- as.Date(kor_coda$time)
+coda <- melt(kor_coda,id.vars="time",variable.name = "type", value.name = "count")
+ggplot(coda, aes(x = time, y = count, color = type)) + 
+  geom_line(lwd = 2) +
+  scale_x_date(breaks = "month") +
+  xlab(label = "Date") +
+  ylab(label = " ") +
+  ggtitle("<Korea increasing trend>") +
+  theme_set(theme_gray(base_family='NanumGothic'))+
+  theme(text=element_text(color="grey30")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
+
+
