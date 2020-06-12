@@ -247,7 +247,7 @@ update_coda$time <- as.Date(update_coda$time)
 write.csv(up_coda, "/Users/cpprhtn/Desktop/update_coda.csv") # 누적확진자 
 write.csv(kor_coda, "/Users/cpprhtn/Desktop/coda2.csv") #일일 확진자
 
-
+#국내 확진 추이
 kor_coda <- kor_coda %>% select(time, confirm, cum_heal, cum_dead)
 str(kor_coda)
 kor_coda$time <- as.Date(kor_coda$time)
@@ -259,8 +259,60 @@ ggplot(coda, aes(x = time, y = count, color = type)) +
   ylab(label = " ") +
   ggtitle("<Korea increasing trend>") +
   theme_set(theme_gray(base_family='NanumGothic'))+
-  theme(text=element_text(color="grey30")) +
+  theme(text=element_text(color="black")) +
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
 
+#검색 트렌드
+search <- read.csv("SearchTrend.csv")
+search_g <- gather(search, keyword, volume, -date)
+search_g$date <- as.Date(search_g$date)
+#2020
+min <- as.Date("2020-01-01")
+max <- as.Date("2020-05-31")
+search_g %>% 
+  ggplot(aes(x=date, y=volume, color=keyword)) +
+  ggtitle("Search Trend in 2020") +
+  geom_line(lwd = 2) + scale_x_date(breaks = "month", limits = c(min, max)) +
+  xlab(label = "Date") +
+  ylab(label = "Number of searches") + ylim(0,90) +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
+#2019
+min19 <- as.Date("2019-01-01")
+max19 <- as.Date("2020-01-01")
+search_g %>% 
+  ggplot(aes(x=date, y=volume, color=keyword)) +
+  ggtitle("Search Trend in 2019") +
+  geom_line(lwd = 2) + scale_x_date(breaks = "month", limits = c(min19, max19)) +
+  xlab(label = "Date") +
+  ylab(label = "Number of searches") + ylim(0,20) +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
 
+#성별에 따른 누적 확진자 수
+gender <- read.csv("TimeGender.csv")
+gender_g <- mutate(gender, death_rate = deceased/confirmed)
+gender_g$date <- as.Date(gender_g$date)
+gender_g %>% ggplot(aes(x = date, y = confirmed, fill = sex)) +
+  ggtitle(label = "<Number of confirmed cases by gender>") +  
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_x_date(breaks = "month") +
+  xlab(label = "Date") +
+  ylab(label = "number of confirmed cases") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.7, size=20, color="black"))
+
+#성별에 따른 사망률
+ggplot(gender_g, aes(x=date, y=death_rate, color=sex)) + 
+  ggtitle(label = "gender-based mortality") + 
+  geom_point() + geom_line() +
+  scale_x_date(breaks = "month") +
+  xlab(label = "Date") +
+  ylab(label = "mortality") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="dark red"))

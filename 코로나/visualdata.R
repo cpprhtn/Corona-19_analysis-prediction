@@ -13,7 +13,6 @@ ggplot(time_raw, aes(x = date, y = number, color = type)) +
   geom_line(lwd = 2) +
   scale_x_date(breaks = "month") +
   xlab(label = "Date") +
-  ylab(label = " ") +
   ggtitle("Cumulative number of confirmed, completed, and deceased") +
   theme(text=element_text(color="grey50")) +
   theme(axis.title=element_text(size=15)) +
