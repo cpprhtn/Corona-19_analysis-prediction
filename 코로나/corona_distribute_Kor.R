@@ -236,7 +236,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(reshape2)
-
+setwd("/Users/cpprhtn/Desktop/git_local/Corona-19_made_JW/코로나/data")
 read.csv("/Users/cpprhtn/Desktop/Kor_coda.csv") -> update_coda
 update_coda <- update_coda[,c(2:5)]
 up_coda <- rbind(update_coda,coda3)
@@ -316,3 +316,34 @@ ggplot(gender_g, aes(x=date, y=death_rate, color=sex)) +
   theme(text=element_text(color="black")) +
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="dark red"))
+
+
+#연령대별 확진자수 및 사망률
+age <- read.csv("TimeAge.csv")
+age_mu <- aggregate(cbind(confirmed,deceased)~age, age, sum) %>%
+  mutate(age, death_rate = deceased/confirmed)
+age_mu %>% ggplot() +
+  ggtitle("Confirmed number and mortality by age group") +
+  geom_bar(mapping = aes(x = age, y = confirmed/1000000), 
+           stat = "identity", width=0.5, fill = "skyblue") +
+  geom_point(mapping = aes(x = age, y = death_rate), 
+             size = 3, shape = 21, fill = "red") + xlab(label = "Age") +
+  scale_y_continuous(name = expression("mortality"), 
+                     sec.axis = sec_axis(~ . *1000000, name = "number of confirmed cases")) +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="red"))
+
+
+#연령, 성별에 따른 확진자 수
+patient <- read.csv("Patientinfo.csv")
+patient %>% filter(sex != '') %>% filter(age != '') %>%
+  group_by(age, sex) %>% summarise(N=n()) %>%
+  ggplot(aes(x=age, y=N, fill=sex)) + 
+  ggtitle("Number of confirmed cases by age and gender") +
+  geom_bar(stat="identity", position=position_dodge()) +
+  xlab(label = "Age") +
+  ylab(label = "number of confirmed cases") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.5, size=20, color="darkgreen"))
