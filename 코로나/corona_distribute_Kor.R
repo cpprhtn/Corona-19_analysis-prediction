@@ -69,13 +69,14 @@ p <- ggplot(dd, aes(days_since_100, confirm, color = country)) +
 print(p)
 
 
-#install.packages("maps")
+
 library('maps')
 x = get_nCov2019(lang = 'en')
 plot(x)
 plot(x, region = 'South Korea')
 
-#install.packages("devtools") 
+
+
 
 write.csv(dd, "/Users/cpprhtn/Desktop/Kor_data2.csv")
 getwd()
@@ -140,22 +141,25 @@ cum_heal <- c("0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","2
 cum_dead <- c("0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0",
               "0","0","0","0","0","0","0","0")
 kk <- data.frame(time,confirm,cum_heal,cum_dead)
-
+dfdf[c(30:131),] -> dfdf2
 str(kk)
 kk$time <- as.Date(kk$time)
 kk$confirm <- as.integer(kk$confirm)
 kk$cum_heal <- as.integer(kk$cum_heal)
 kk$cum_dead <- as.integer(kk$cum_dead)
-
+read.csv(Kor_coda)
 newd <- dd[,c(1,3,4,5)]
-
+str(kk)
+str(dfdf2)
+dfdf2 <- dfdf2[,c(2:5)]
+last_data <- rbind(kk,dfdf2)
 kor_coda <- rbind(kk,newd)
+
 write.csv(kor_coda, "/Users/cpprhtn/Desktop/Kor_coda.csv")
 write.csv(Kor_coda, "/Users/cpprhtn/Desktop/Kor_codaa.csv")
 
 update_coda <- dd[103,c(1,3,4,5)]
 kor_coda <- rbind(kor_coda,update_coda)
-
 fit <- lm(kor_coda$confirm ~ kor_coda$time)
 summary(fit)
 abline(fit, col = "purple",  lwd="3")
@@ -232,20 +236,35 @@ write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
 
 plot(all$count,all$isolation,col="red",type="c")
 
+
+
+----------------------------------------------
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(reshape2)
+
 setwd("/Users/cpprhtn/Desktop/git_local/Corona-19_made_JW/코로나/data")
-read.csv("/Users/cpprhtn/Desktop/Kor_coda.csv") -> update_coda
+read.csv("/Users/cpprhtn/Desktop/Kor_coda.csv") -> dfdf
 update_coda <- update_coda[,c(2:5)]
 up_coda <- rbind(update_coda,coda3)
 coda2$confirm <- coda2$cum_confirm
 coda3 <- coda2[,c(1,5,3,4)]
 str(update_coda)
 update_coda$time <- as.Date(update_coda$time)
+
 write.csv(up_coda, "/Users/cpprhtn/Desktop/update_coda.csv") # 누적확진자 
 write.csv(kor_coda, "/Users/cpprhtn/Desktop/coda2.csv") #일일 확진자
+
+write.csv(last_data, "/Users/cpprhtn/Desktop/last_data.csv") #머신러닝을 위한 데이터
+
+
+
+
+
+----------------------------------------------
+  
+last_data <- read.csv("/Users/cpprhtn/Desktop/last_data.csv")
 
 #국내 확진 추이
 kor_coda <- kor_coda %>% select(time, confirm, cum_heal, cum_dead)
@@ -267,6 +286,16 @@ ggplot(coda, aes(x = time, y = count, color = type)) +
 search <- read.csv("SearchTrend.csv")
 search_g <- gather(search, keyword, volume, -date)
 search_g$date <- as.Date(search_g$date)
+'''
+2016년 12월 독감유행으로 'flu' 검색량 증가
+
+2019년 3월 감기유행으로 'cold' 검색량 증가
+
+2020년 1월8일 폐렴 검색 증가이후 코로나 검색 증가
+
+1/20 첫 확진자 발생 -> 코로나 검색 증가
+2/18 31번 확진자 확진판정 후 급증
+'''
 #2020
 min <- as.Date("2020-01-01")
 max <- as.Date("2020-05-31")
@@ -347,3 +376,46 @@ patient %>% filter(sex != '') %>% filter(age != '') %>%
   theme(text=element_text(color="black")) +
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="darkgreen"))
+
+#연령에 따른 유동 인구
+move <- read.csv("SeoulFloating.csv")
+move %>% filter(fp_num != '') %>% filter(birth_year != '') %>%
+  group_by(birth_year, fp_num) %>% summarise(N=n()) %>%
+  ggplot(aes(x=birth_year, y=N, fill=fp_num)) + 
+  ggtitle("floating population following age") +
+  geom_bar(stat="identity", position=position_dodge(), width = 6) +
+  xlab(label = "birth_year") +
+  ylab(label = "Floating population") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
+
+#성별에 따른 유동인구
+move %>% filter(fp_num != '') %>% filter(sex != '') %>%
+  group_by(sex, fp_num) %>% summarise(N=n()) %>%
+  ggplot(aes(x=sex, y=N, fill=fp_num)) + 
+  ggtitle("floating population following sex") +
+  geom_bar(stat="identity", position=position_dodge(), width = 0.4) +
+  xlab(label = "sex") +
+  ylab(label = "Floating population") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
+
+#시간에 따른 유동인구
+move %>% filter(fp_num != '') %>% filter(hour != '') %>%
+  group_by(hour, fp_num) %>% summarise(N=n()) %>%
+  ggplot(aes(x=hour, y=N, fill=fp_num)) + 
+  ggtitle("floating population following hour") +
+  subti
+  geom_line(lwd = 2) +
+  geom_bar(stat="identity", position=position_dodge(), width = 0.5) +
+  xlab(label = "hour") +
+  ylab(label = "Floating population") +
+  theme(text=element_text(color="black")) +
+  theme(axis.title=element_text(size=15)) +
+  theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
+
+
+
+

@@ -14,8 +14,8 @@ from keras.models import Sequential
 from keras.layers import LSTM, Dropout, Dense, Activation
 import datetime
 
-data = pd.read_csv("Kor_coda.csv")
-testdf = data[30:]
+data = pd.read_csv("last_data.csv")
+#testdf = data[30:]
 confirmdf = data["confirm"].values
 #create windows
 seq_len = 3
