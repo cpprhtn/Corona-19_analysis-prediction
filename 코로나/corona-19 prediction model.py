@@ -25,15 +25,6 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 
 
-
-
-
-
-
-
-
-
-
 data = pd.read_csv("last_data.csv")
 #testdf = data[30:]
 confirmdf = data["confirm"].values
@@ -55,8 +46,8 @@ for window in result:
     
 result = np.array(normalized_data)
 
-
-#training 70% test 30% 배치10 에폭시 500
+'''
+#training 70% test 30% 배치10 에폭시 500 LSTM ? ?
 
 #---------------------------------------------------------------------------
 row = int(round(result.shape[0]*0.7))
@@ -77,9 +68,9 @@ x_train.shape, x_test.shape
 #build a model
 model = Sequential() #모델을 순차적으로 정의하는 클래스
 
-model.add(LSTM(200,return_sequences=True,input_shape=(3,1)))
+model.add(LSTM(90,return_sequences=True,input_shape=(3,1)))
 
-model.add(LSTM(50,return_sequences=False))
+model.add(LSTM(30,return_sequences=False))
 
 model.add(Dense(1,activation="linear"))
 
@@ -87,10 +78,10 @@ model.compile(loss='mse',optimizer='rmsprop') #mse = 손실함수
 
 model.summary()
 #---------------------------------------------------------------------------
-
+'''
 
 #training 90% test 10% 배치10 에폭시 500 LSTM 90,30
-'''
+
 #---------------------------------------------------------------------------
 
 row = int(round(result.shape[0]*0.9))
@@ -122,7 +113,8 @@ model.compile(loss='mse',optimizer='rmsprop') #mse = 손실함수
 
 model.summary()
 #---------------------------------------------------------------------------
-'''
+
+
 #training
 model.fit(x_train, y_train,
    validation_data=(x_test, y_test),
@@ -137,7 +129,7 @@ fig = plt.figure(facecolor = "white")
 ax = fig.add_subplot(111)
 ax.plot(y_test, label="True")
 ax.plot(pred, label="Prediction")
-ax.set_title("Covid-19 Prediction Model")
+ax.set_title("Covid-19 Prediction Model (훈련 90% 테스트 10% batch 10 epochs 500 LSTM 90)")
 ax.legend()
 plt.show()
 
@@ -189,7 +181,7 @@ svm_test_pred = svm_confirmed.predict(x_test_svm)
 plt.plot(y_test_svm)
 plt.plot(svm_test_pred)
 plt.legend(['Test Data', 'SVM Predictions'])
-plt.title("SVM Prediction")
+plt.title("SVM Prediction (gamma 0.01 epsilon 5 degree 2.5, C 0.1)")
 print('MAE:', mean_absolute_error(svm_test_pred, y_test_svm))
 print('MSE:',mean_squared_error(svm_test_pred, y_test_svm))
 
