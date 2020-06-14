@@ -13,6 +13,26 @@ import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import LSTM, Dropout, Dense, Activation
 import datetime
+from matplotlib import rc
+rc('font', family='AppleGothic')
+from sklearn.linear_model import LinearRegression, BayesianRidge
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.svm import SVR
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+
+
+
+
+
+
+
+
+
+
+
 
 data = pd.read_csv("last_data.csv")
 #testdf = data[30:]
@@ -122,3 +142,59 @@ ax.legend()
 plt.show()
 
 #0.05이내로 편차 : 실 인원 수 60명 이내
+
+"""
+_______________________________________________________________________________
+SVM Prediction
+_______________________________________________________________________________
+
+"""
+
+
+df = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
+kor_df = df[143:144]
+kor_df.head()
+kor_df.drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1, inplace= True)
+
+cols = df.keys()
+confirm = df.loc[:, cols[4]:cols[-1]]
+dates = confirm.keys()
+
+days = np.array([i for i in range(len(dates))]).reshape(-1, 1)
+kor_cases = np.array(kor_df).reshape(-1, 1)
+
+
+
+seq_svm = 10
+pred_svm = np.array([i for i in range(len(dates)+seq_svm)]).reshape(-1, 1)
+#adjusted_dates = pred_svm[:-10]
+
+
+first = '1/22/2020'
+first_data = datetime.datetime.strptime(first, '%m/%d/%Y')
+pred_data = []
+for i in range(len(pred_svm)):
+    pred_data.append((first_data + datetime.timedelta(days=i)).strftime('%m/%d/%Y'))
+
+# slightly modify the data to fit the model better
+x_train_svm, x_test_svm, y_train_svm, y_test_svm = train_test_split(days[40:], kor_cases[40:], test_size=0.05, shuffle=False) 
+
+svm_confirmed = SVR(shrinking=True, kernel='poly',gamma=0.01, epsilon=5,degree=2.5, C=0.1)
+svm_confirmed.fit(x_train_svm, y_train_svm)
+svm_pred = svm_confirmed.predict(pred_svm)
+
+
+# check against testing data
+svm_test_pred = svm_confirmed.predict(x_test_svm)
+plt.plot(y_test_svm)
+plt.plot(svm_test_pred)
+plt.legend(['Test Data', 'SVM Predictions'])
+plt.title("SVM Prediction")
+print('MAE:', mean_absolute_error(svm_test_pred, y_test_svm))
+print('MSE:',mean_squared_error(svm_test_pred, y_test_svm))
+
+
+
+
+
+
