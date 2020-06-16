@@ -135,18 +135,15 @@ plt.show()
 
 #0.05이내로 편차 : 실 인원 수 60명 이내
 
-"""
-_______________________________________________________________________________
-SVM Prediction
-_______________________________________________________________________________
-
-"""
 
 
 df = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
 kor_df = df[143:144]
 kor_df.head()
 kor_df.drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1, inplace= True)
+
+days_in_future = 10
+future_forcast = np.array([i for i in range(len(dates)+days_in_future)]).reshape(-1, 1)
 
 cols = df.keys()
 confirm = df.loc[:, cols[4]:cols[-1]]
@@ -169,24 +166,63 @@ for i in range(len(pred_svm)):
     pred_data.append((first_data + datetime.timedelta(days=i)).strftime('%m/%d/%Y'))
 
 # slightly modify the data to fit the model better
-x_train_svm, x_test_svm, y_train_svm, y_test_svm = train_test_split(days[40:], kor_cases[40:], test_size=0.05, shuffle=False) 
+X_train, X_test, Y_train, Y_test = train_test_split(days[40:], kor_cases[40:], test_size=0.05, shuffle=False) 
+
+
+"""
+_______________________________________________________________________________
+SVM Prediction 서포트 벡터 머신
+_______________________________________________________________________________
+
+"""
+
 
 svm_confirmed = SVR(shrinking=True, kernel='poly',gamma=0.01, epsilon=5,degree=2.5, C=0.1)
-svm_confirmed.fit(x_train_svm, y_train_svm)
+svm_confirmed.fit(X_train, Y_train)
 svm_pred = svm_confirmed.predict(pred_svm)
 
 
 # check against testing data
-svm_test_pred = svm_confirmed.predict(x_test_svm)
-plt.plot(y_test_svm)
+svm_test_pred = svm_confirmed.predict(X_test)
+plt.plot(Y_test)
 plt.plot(svm_test_pred)
 plt.legend(['Test Data', 'SVM Predictions'])
 plt.title("SVM Prediction (gamma 0.01 epsilon 5 degree 2.5, C 0.1)")
-print('MAE:', mean_absolute_error(svm_test_pred, y_test_svm))
-print('MSE:',mean_squared_error(svm_test_pred, y_test_svm))
+print('MAE:', mean_absolute_error(svm_test_pred, Y_test))
+print('MSE:',mean_squared_error(svm_test_pred, Y_test))
 
 
 
+"""
+_______________________________________________________________________________
+Polynomial Regression Predictions
+_______________________________________________________________________________
 
+"""
+poly = PolynomialFeatures(degree=8)
+poly_X_train_confirmed = poly.fit_transform(X_train)
+poly_X_test_confirmed = poly.fit_transform(X_test)
+poly_future_forcast = poly.fit_transform(future_forcast)
 
+bayesian_poly = PolynomialFeatures(degree=8)
+bayesian_poly_X_train_confirmed = bayesian_poly.fit_transform(X_train)
+bayesian_poly_X_test_confirmed = bayesian_poly.fit_transform(X_test)
+bayesian_poly_future_forcast = bayesian_poly.fit_transform(future_forcast)
+
+linear_model = LinearRegression(normalize=True, fit_intercept=False)
+linear_model.fit(poly_X_train_confirmed, Y_train)
+test_linear_pred = linear_model.predict(poly_X_test_confirmed)
+linear_pred = linear_model.predict(poly_future_forcast)
+print('MAE:', mean_absolute_error(test_linear_pred, Y_test))
+print('MSE:',mean_squared_error(test_linear_pred, Y_test))
+
+print(linear_model.coef_)
+'''[[ 3.60480682e-05  8.48100767e-04  2.42337669e-02  3.35233742e-01
+  -1.04783415e-02  1.40296627e-04 -9.83257279e-07  3.56510317e-09
+  -5.30662159e-12]]'''
+
+plt.plot(Y_test)
+plt.plot(test_linear_pred)
+plt.legend(['Test Data', 'Polynomial Regression Predictions'])
+plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=8))")
 
