@@ -22,12 +22,27 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
+#전처리
+df = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
+kor_df = df[143:144]
+kor_df.drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1, inplace= True)
+
+kor_t = kor_df.T
+kor_t.columns =["confirmed"]
+
+
+confirmdf = kor_t["confirmed"].values
 
 
 
-data = pd.read_csv("last_data.csv")
-#testdf = data[30:]
-confirmdf = data["confirm"].values
+
+"""
+_______________________________________________________________________________
+LSTM Prediction 
+_______________________________________________________________________________
+
+"""
+
 #create windows
 seq_len = 3
 sequence_lenght = seq_len+1
@@ -137,10 +152,7 @@ plt.show()
 
 
 
-df = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
-kor_df = df[143:144]
-kor_df.head()
-kor_df.drop(['Province/State', 'Country/Region', 'Lat', 'Long'], axis=1, inplace= True)
+
 
 days_in_future = 10
 future_forcast = np.array([i for i in range(len(dates)+days_in_future)]).reshape(-1, 1)
@@ -166,7 +178,7 @@ for i in range(len(pred_svm)):
     pred_data.append((first_data + datetime.timedelta(days=i)).strftime('%m/%d/%Y'))
 
 # slightly modify the data to fit the model better
-X_train, X_test, Y_train, Y_test = train_test_split(days[40:], kor_cases[40:], test_size=0.05, shuffle=False) 
+X_train, X_test, Y_train, Y_test = train_test_split(days[50:], kor_cases[50:], test_size=0.05, shuffle=False) 
 
 
 """
@@ -226,3 +238,42 @@ plt.plot(test_linear_pred)
 plt.legend(['Test Data', 'Polynomial Regression Predictions'])
 plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=8))")
 
+
+
+
+
+
+"""
+_______________________________________________________________________________
+Bayesian Ridge Polynomial Predictions
+_______________________________________________________________________________
+
+"""
+
+# bayesian ridge polynomial regression
+tol = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2]
+alpha_1 = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3]
+alpha_2 = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3]
+lambda_1 = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3]
+lambda_2 = [1e-7, 1e-6, 1e-5, 1e-4, 1e-3]
+normalize = [True, False]
+
+bayesian_grid = {'tol': tol, 'alpha_1': alpha_1, 'alpha_2' : alpha_2, 'lambda_1': lambda_1, 'lambda_2' : lambda_2, 
+                 'normalize' : normalize}
+
+bayesian = BayesianRidge(fit_intercept=False)
+bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=3, return_train_score=True, n_jobs=-1, n_iter=40, verbose=1)
+bayesian_search.fit(bayesian_poly_X_train_confirmed, Y_train)
+
+bayesian_search.best_params_
+
+bayesian_confirmed = bayesian_search.best_estimator_
+test_bayesian_pred = bayesian_confirmed.predict(bayesian_poly_X_test_confirmed)
+bayesian_pred = bayesian_confirmed.predict(bayesian_poly_future_forcast)
+print('MAE:', mean_absolute_error(test_bayesian_pred, Y_test))
+print('MSE:',mean_squared_error(test_bayesian_pred, Y_test))
+
+plt.plot(Y_test)
+plt.plot(test_bayesian_pred)
+plt.legend(['Test Data', 'Bayesian Ridge Polynomial Predictions'])
+plt.title("Bayesian Ridge Polynomial Predictions")
