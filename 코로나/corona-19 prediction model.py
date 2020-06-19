@@ -160,8 +160,7 @@ plt.show()
 
 
 
-days_in_future = 10
-future_forcast = np.array([i for i in range(len(dates)+days_in_future)]).reshape(-1, 1)
+
 
 cols = df.keys()
 confirm = df.loc[:, cols[4]:cols[-1]]
@@ -170,6 +169,8 @@ dates = confirm.keys()
 days = np.array([i for i in range(len(dates))]).reshape(-1, 1)
 kor_cases = np.array(kor_df).reshape(-1, 1)
 
+days_in_future = 10
+future_forcast = np.array([i for i in range(len(dates)+days_in_future)]).reshape(-1, 1)
 
 
 seq_svm = 10
@@ -216,7 +217,7 @@ svm_test_pred = svm_confirmed.predict(X_test)
 plt.plot(Y_test)
 plt.plot(svm_test_pred)
 plt.legend(['Test Data', 'SVM Predictions'])
-plt.title("SVM Prediction (gamma 0.01 epsilon 5 degree 2.5, C 0.1)")
+plt.title("SVM Prediction (gamma 0.01 epsilon 5 degree 3, C 0.1)")
 print('MAE:', mean_absolute_error(svm_test_pred, Y_test))
 print('MSE:',mean_squared_error(svm_test_pred, Y_test))
 #MAE : 평균제곱값 오차
@@ -228,12 +229,12 @@ Polynomial Regression Predictions
 _______________________________________________________________________________
 
 """
-poly = PolynomialFeatures(degree=8)
+poly = PolynomialFeatures(degree=4)
 poly_X_train_confirmed = poly.fit_transform(X_train)
 poly_X_test_confirmed = poly.fit_transform(X_test)
 poly_future_forcast = poly.fit_transform(future_forcast)
 
-bayesian_poly = PolynomialFeatures(degree=8)
+bayesian_poly = PolynomialFeatures(degree=4)
 bayesian_poly_X_train_confirmed = bayesian_poly.fit_transform(X_train)
 bayesian_poly_X_test_confirmed = bayesian_poly.fit_transform(X_test)
 bayesian_poly_future_forcast = bayesian_poly.fit_transform(future_forcast)
@@ -253,7 +254,7 @@ print(linear_model.coef_) #coef_ 특성의 계수 확인
 plt.plot(Y_test)
 plt.plot(test_linear_pred)
 plt.legend(['Test Data', 'Polynomial Regression Predictions'])
-plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=8))")
+plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=4))")
 
 
 
@@ -279,7 +280,7 @@ bayesian_grid = {'tol': tol, 'alpha_1': alpha_1, 'alpha_2' : alpha_2, 'lambda_1'
                  'normalize' : normalize}
 
 bayesian = BayesianRidge(fit_intercept=False)
-bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=3, return_train_score=True, n_jobs=-1, n_iter=40, verbose=1)
+bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=4, return_train_score=True, n_jobs=-1, n_iter=30, verbose=1)
 bayesian_search.fit(bayesian_poly_X_train_confirmed, Y_train)
 
 bayesian_search.best_params_
