@@ -9,17 +9,17 @@ Created on Sat Jun 13 22:56:32 2020
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from keras.models import Sequential
-from keras.layers import LSTM, Dropout, Dense, Activation
 import datetime
+import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('font', family='AppleGothic')
+from keras.models import Sequential
+from keras.layers import LSTM, Dropout, Dense, Activation
+from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression, BayesianRidge
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 #전처리
