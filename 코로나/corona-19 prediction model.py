@@ -191,6 +191,8 @@ X_train, X_test, Y_train, Y_test = train_test_split(days[50:], kor_cases[50:], t
 _______________________________________________________________________________
 SVM Prediction 서포트 벡터 머신
 
+초평면 : N차원을 N-1차원으로 구현
+
 장점
     일반화 오차 낮음
     overfitting 방지
@@ -204,7 +206,7 @@ _______________________________________________________________________________
 """
 
 
-svm_confirmed = SVR(shrinking=True, kernel='poly',gamma=0.01, epsilon=5,degree=2.5, C=0.1)
+svm_confirmed = SVR(shrinking=True, kernel='poly',gamma=0.01, epsilon=5,degree=3, C=0.1) #degree : 차원수
 svm_confirmed.fit(X_train, Y_train)
 svm_pred = svm_confirmed.predict(pred_svm)
 
@@ -217,10 +219,10 @@ plt.legend(['Test Data', 'SVM Predictions'])
 plt.title("SVM Prediction (gamma 0.01 epsilon 5 degree 2.5, C 0.1)")
 print('MAE:', mean_absolute_error(svm_test_pred, Y_test))
 print('MSE:',mean_squared_error(svm_test_pred, Y_test))
+#MAE : 평균제곱값 오차
+#MSE : 평균절댓값 오차
 
-
-
-"""
+""" 
 _______________________________________________________________________________
 Polynomial Regression Predictions
 _______________________________________________________________________________
@@ -243,7 +245,7 @@ linear_pred = linear_model.predict(poly_future_forcast)
 print('MAE:', mean_absolute_error(test_linear_pred, Y_test))
 print('MSE:',mean_squared_error(test_linear_pred, Y_test))
 
-print(linear_model.coef_)
+print(linear_model.coef_) #coef_ 특성의 계수 확인
 '''[[ 3.60480682e-05  8.48100767e-04  2.42337669e-02  3.35233742e-01
   -1.04783415e-02  1.40296627e-04 -9.83257279e-07  3.56510317e-09
   -5.30662159e-12]]'''
