@@ -20,107 +20,76 @@ plot(x=Kor_Data$time, y=Kor_Data$confirm, type = "l")
 p <- ggplot(Kor_Data, aes(time, confirm)) + geom_line()
 print(p)
 #종합 2/20 ~ 5/29
-plot(x=kor_coda$time,y=kor_coda$confirm,type = "o", col = "red", main = "Kor_increasing_trend",xlim = c(min(as.Date(dd$time)),max(as.Date(dd$time))),
+plot(x=kor_coda$time,y=kor_coda$confirm,type = "o", col = "red", main = "Kor_increasing_trend",xlim = c(min(as.Date(Kor_Data$time)),max(as.Date(Kor_Data$time))),
      xlab = "Date", ylab = "confirm",lty =6, sub = "red = confirm, blue = heal, black = dead")
-lines(dd$time,dd$cum_heal,col="blue")
-points(dd$time,dd$cum_heal,col="blue")
-lines(dd$time,dd$cum_dead)
-points(dd$time,dd$cum_dead)
+lines(Kor_Data$time,Kor_Data$cum_heal,col="blue")
+points(Kor_Data$time,Kor_Data$cum_heal,col="blue")
+lines(Kor_Data$time,Kor_Data$cum_dead)
+points(Kor_Data$time,Kor_Data$cum_dead)
 #이태원 4/30 ~ 5/5
-Itaewon <- dd[71 : 76,]
+Itaewon <- Kor_Data[71 : 76,]
 plot(x=Itaewon$time,y=Itaewon$confirm,type = "o", col = "red", main = "Itaewon_increasing_trend",
      xlab = "Date", ylab = "confirm",lty =6)
 #Coupang 물류센터 5월 25 ~
-Coupang <- dd[96 : 100,]
+Coupang <- Kor_Data[96 : 100,]
 plot(x=Coupang$time,y=Coupang$confirm,type = "o", col = "red", main = "Coupang_increasing_trend",
      xlab = "Date", ylab = "confirm",lty =6)
 #구로시 콜센터 감염 3/9 ~ 3/24
-callcenter<- dd[19 : 35,]
+callcenter<- Kor_Data[19 : 35,]
 plot(x=callcenter$time,y=callcenter$confirm,type = "o", col = "red", main = "callcenter_increasing_trend",
      xlab = "Date", ylab = "confirm",lty =6)
 
 
 
 
-time <- c("2020-01-21","2020-01-22","2020-01-23","2020-01-24","2020-01-25","2020-01-26","2020-01-27",
-          "2020-01-28","2020-01-29","2020-01-30","2020-01-31","2020-02-01","2020-02-02","2020-02-03",
-          "2020-02-04","2020-02-05","2020-02-06","2020-02-07","2020-02-08","2020-02-09","2020-02-10",
-          "2020-02-11","2020-02-12","2020-02-13","2020-02-14","2020-02-15","2020-02-16","2020-02-17",
-          "2020-02-18","2020-02-19")
-confirm <- c("1","1","1","2","2","2","4","4","4","7","11","12","15","15","16","21","24","24","24","27",
-             "27","28","28","28","28","28","29","30","31","51")
-cum_heal <- c("0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","2","2","2","3","4",
-              "4","7","7","7","9","9","10","10","16")
-cum_dead <- c("0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0",
-              "0","0","0","0","0","0","0","0")
-kk <- data.frame(time,confirm,cum_heal,cum_dead)
-dfdf[c(30:131),] -> dfdf2
-str(kk)
-kk$time <- as.Date(kk$time)
-kk$confirm <- as.integer(kk$confirm)
-kk$cum_heal <- as.integer(kk$cum_heal)
-kk$cum_dead <- as.integer(kk$cum_dead)
-read.csv(Kor_coda)
-newd <- dd[,c(1,3,4,5)]
-str(kk)
-str(dfdf2)
-dfdf2 <- dfdf2[,c(2:5)]
-last_data <- rbind(kk,dfdf2)
-kor_coda <- rbind(kk,newd)
-
-write.csv(kor_coda, "/Users/cpprhtn/Desktop/Kor_coda.csv")
-write.csv(Kor_coda, "/Users/cpprhtn/Desktop/Kor_codaa.csv")
-
-update_coda <- dd[103,c(1,3,4,5)]
-kor_coda <- rbind(kor_coda,update_coda)
+#전체 기울기
+fit$coefficients[[2]] #94.30896
 fit <- lm(Kor_Data$confirm ~ Kor_Data$time)
 summary(fit)
 abline(fit, col = "purple",  lwd="3")
-fit$coefficients[[1]]
 
-#전체 기울기
-fit$coefficients[[2]] #109.5699
+
 
 #신천지 이전
-coda1 <- kor_coda[c(1:28),]
+coda1 <- Kor_Data[c(1:29),]
 fit_1 <- lm(coda1$confirm ~ coda1$time)
-fit_1$coefficients[[2]] #0.2208539
+fit_1$coefficients[[2]] #1.383183
 abline(fit_1, col="dark blue", lwd="3")
 
 #신천지 영항력 2/18 ~ 3/8
-coda2 <- kor_coda[c(29:48),]
+coda2 <- Kor_Data[c(30:49),]
 fit_2 <- lm(coda2$confirm ~ coda2$time)
-fit_2$coefficients[[2]] #432.2105
+fit_2$coefficients[[2]] #462.3271
 abline(fit_2,col="black", lwd="3")
 
 #구로 콜센터 3/9~3/25
-coda3 <- kor_coda[c(49:65),]
+coda3 <- Kor_Data[c(50:66),]
 fit_3 <- lm(coda3$confirm ~ coda3$time)
-fit_3$coefficients[[2]] #103.6201
+fit_3$coefficients[[2]] #98.77206
 abline(fit_3,col="dark blue", lwd="3")
 
-#사이 4/10~5/9
-coda4 <- kor_coda[c(81:110),]
+#사이 3/26~5/9
+coda4 <- Kor_Data[c(67:110),]
 fit_4 <- lm(coda4$confirm ~ coda4$time)
-fit_4$coefficients[[2]] #24.12121
+fit_4$coefficients[[2]] #25.53044
 abline(fit_4,col="green", lwd="3")
 
 #이태원 5/10~5/15
-coda5 <- kor_coda[c(111:116),]
+coda5 <- Kor_Data[c(111:116),]
 fit_5 <- lm(coda5$confirm ~ coda5$time)
-fit_5$coefficients[[2]] #28.34286
+fit_5$coefficients[[2]] #26.14286
 abline(fit_5,col="yellow", lwd="3")
 
-#사이 5/16~5/25
-coda6 <- kor_coda[c(117:126),]
+#사이 5/16~5/26
+coda6 <- Kor_Data[c(118:127),]
 fit_6 <- lm(coda6$confirm ~ coda6$time)
-fit_6$coefficients[[2]] #19.42424
-abline(fit_6,col="green", lwd="3")
+fit_6$coefficients[[2]] #21.4303
+abline(fit_6,col="dark green", lwd="3")
 
 #쿠팡 집단감염 5/27 ~
-coda7 <- kor_coda[c(127:133),]
+coda7 <- Kor_Data[c(128:134),]
 fit_7 <- lm(coda7$confirm ~ coda7$time)
-fit_7$coefficients[[2]] #47.75
+fit_7$coefficients[[2]] #38.5
 abline(fit_7,col="green", lwd="3")
 
 6/7일기준
@@ -145,42 +114,13 @@ percent <- c("22.71","10.01","4.31","282.66","9.44","2.2","3.12","4.62","13.73",
 
 all <- data.frame(count,city,total,abroad,local,confirmed,isolation,unisolation,death,percent)
 
-write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
+#write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
 
 plot(all$count,all$isolation,col="red",type="c")
 
-
-
-----------------------------------------------
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-library(reshape2)
-
-setwd("/Users/cpprhtn/Desktop/git_local/Corona-19_made_JW/코로나/data")
-read.csv("/Users/cpprhtn/Desktop/Kor_coda.csv") -> dfdf
-update_coda <- update_coda[,c(2:5)]
-up_coda <- rbind(update_coda,coda3)
-coda2$confirm <- coda2$cum_confirm
-coda3 <- coda2[,c(1,5,3,4)]
-str(update_coda)
-update_coda$time <- as.Date(update_coda$time)
-
-write.csv(up_coda, "/Users/cpprhtn/Desktop/update_coda.csv") # 누적확진자 
-write.csv(kor_coda, "/Users/cpprhtn/Desktop/coda2.csv") #일일 확진자
-
-write.csv(last_data, "/Users/cpprhtn/Desktop/last_data.csv") #머신러닝을 위한 데이터
-
-
-
-
-
-----------------------------------------------
-  
-last_data <- read.csv("/Users/cpprhtn/Desktop/last_data.csv")
-
 #국내 확진 추이
-kor_coda <- kor_coda %>% select(time, confirm, cum_heal, cum_dead)
+Kor_Data[,c(2:5)] -> Kor_Data
+kor_coda <- Kor_Data %>% select(time, confirm, cum_heal, cum_dead)
 str(kor_coda)
 kor_coda$time <- as.Date(kor_coda$time)
 coda <- melt(kor_coda,id.vars="time",variable.name = "type", value.name = "count")
@@ -321,14 +261,10 @@ move %>% filter(fp_num != '') %>% filter(hour != '') %>%
   ggplot(aes(x=hour, y=N, fill=fp_num)) + 
   ggtitle("floating population following hour") +
   subti
-  geom_line(lwd = 2) +
+geom_line(lwd = 2) +
   geom_bar(stat="identity", position=position_dodge(), width = 0.5) +
   xlab(label = "hour") +
   ylab(label = "Floating population") +
   theme(text=element_text(color="black")) +
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
-
-
-
-
