@@ -1,4 +1,3 @@
-install.packages("remotes")
 library('remotes')
 library('nCov2019')
 library(ggplot2)
