@@ -1,11 +1,17 @@
 library('remotes')
 library('nCov2019')
 library(ggplot2)
+library(tidyr)
+library(reshape2)
 update.packages('nCov2019')
 require(dplyr)
 require(ggplot2)
 require(shadowtext)
 require(nCov2019)
+
+
+
+
 alldata <- load_nCov2019()
 Kor_Data <- alldata['global'] %>% 
   as_tibble %>%
@@ -16,10 +22,10 @@ Kor_Data <- alldata['global'] %>%
 
 #시각화
 plot(x=Kor_Data$time, y=Kor_Data$confirm, type = "l")
-p <- ggplot(Kor_Data, aes(time, confirm)) + geom_line()
+p <- ggplot(Kor_Data, aes(time, confirm)) + geom_line() + ggtitle("<Korea increasing trend>")
 print(p)
-#종합 2/20 ~ 5/29
-plot(x=kor_coda$time,y=kor_coda$confirm,type = "o", col = "red", main = "Kor_increasing_trend",xlim = c(min(as.Date(Kor_Data$time)),max(as.Date(Kor_Data$time))),
+#2/20 ~ 6/26
+plot(x=Kor_Data$time,y=Kor_Data$confirm,type = "o", col = "red", main = "Kor_increasing_trend",xlim = c(min(as.Date(Kor_Data$time)),max(as.Date(Kor_Data$time))),
      xlab = "Date", ylab = "confirm",lty =6, sub = "red = confirm, blue = heal, black = dead")
 lines(Kor_Data$time,Kor_Data$cum_heal,col="blue")
 points(Kor_Data$time,Kor_Data$cum_heal,col="blue")
@@ -42,9 +48,9 @@ plot(x=callcenter$time,y=callcenter$confirm,type = "o", col = "red", main = "cal
 
 
 #전체 기울기
-fit$coefficients[[2]] #94.30896
 fit <- lm(Kor_Data$confirm ~ Kor_Data$time)
 summary(fit)
+fit$coefficients[[2]] #90.76083
 abline(fit, col = "purple",  lwd="3")
 
 
@@ -79,7 +85,7 @@ fit_5 <- lm(coda5$confirm ~ coda5$time)
 fit_5$coefficients[[2]] #26.14286
 abline(fit_5,col="yellow", lwd="3")
 
-#사이 5/16~5/26
+#사이2 5/16~5/26
 coda6 <- Kor_Data[c(118:127),]
 fit_6 <- lm(coda6$confirm ~ coda6$time)
 fit_6$coefficients[[2]] #21.4303
@@ -115,11 +121,18 @@ all <- data.frame(count,city,total,abroad,local,confirmed,isolation,unisolation,
 
 #write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
 
-plot(all$count,all$isolation,col="red",type="c")
+all <- all[c(2:19),]
+plot(all$city ,all$isolation,col="red",ylim=c(0:500))
 
 #국내 확진 추이
-Kor_Data[,c(2:5)] -> Kor_Data
-kor_coda <- Kor_Data %>% select(time, confirm, cum_heal, cum_dead)
+Kor_Data <- alldata['global'] %>% 
+  as_tibble %>%
+  rename(confirm=cum_confirm) %>%
+  filter(country == "South Korea") %>%
+  group_by(country)
+
+Kor_Data[,c(1,3:5)] -> kor_coda
+kor_coda <- kor_coda %>% select(time, confirm, cum_heal, cum_dead)
 str(kor_coda)
 kor_coda$time <- as.Date(kor_coda$time)
 coda <- melt(kor_coda,id.vars="time",variable.name = "type", value.name = "count")
@@ -135,6 +148,8 @@ ggplot(coda, aes(x = time, y = count, color = type)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
 
 #검색 트렌드
+getwd()
+setwd("/Users/cpprhtn/Desktop/git_local/Corona-19_analysis-prediction/코로나/data")
 search <- read.csv("SearchTrend.csv")
 search_g <- gather(search, keyword, volume, -date)
 search_g$date <- as.Date(search_g$date)
@@ -149,12 +164,12 @@ search_g$date <- as.Date(search_g$date)
 2/18 31번 확진자 확진판정 후 급증
 '''
 #2020
-min <- as.Date("2020-01-01")
-max <- as.Date("2020-05-31")
+min20 <- as.Date("2020-01-01")
+max20 <- as.Date("2020-05-31")
 search_g %>% 
   ggplot(aes(x=date, y=volume, color=keyword)) +
   ggtitle("Search Trend in 2020") +
-  geom_line(lwd = 2) + scale_x_date(breaks = "month", limits = c(min, max)) +
+  geom_line(lwd = 2) + scale_x_date(breaks = "month", limits = c(min20, max20)) +
   xlab(label = "Date") +
   ylab(label = "Number of searches") + ylim(0,90) +
   theme(text=element_text(color="black")) +
@@ -173,7 +188,7 @@ search_g %>%
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="steelblue"))
 
-#성별에 따른 누적 확진자 수
+#성별에 의한 누적 확진자 수
 gender <- read.csv("TimeGender.csv")
 gender_g <- mutate(gender, death_rate = deceased/confirmed)
 gender_g$date <- as.Date(gender_g$date)
@@ -187,7 +202,7 @@ gender_g %>% ggplot(aes(x = date, y = confirmed, fill = sex)) +
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.7, size=20, color="black"))
 
-#성별에 따른 사망률
+#성별에 의한 사망률
 ggplot(gender_g, aes(x=date, y=death_rate, color=sex)) + 
   ggtitle(label = "gender-based mortality") + 
   geom_point() + geom_line() +
@@ -216,7 +231,7 @@ age_mu %>% ggplot() +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="red"))
 
 
-#연령, 성별에 따른 확진자 수
+#연령, 성별에 의한 확진자 수
 patient <- read.csv("Patientinfo.csv")
 patient %>% filter(sex != '') %>% filter(age != '') %>%
   group_by(age, sex) %>% summarise(N=n()) %>%
@@ -229,7 +244,7 @@ patient %>% filter(sex != '') %>% filter(age != '') %>%
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.5, size=20, color="darkgreen"))
 
-#연령에 따른 유동 인구
+#연령에 의한 유동 인구
 move <- read.csv("SeoulFloating.csv")
 move %>% filter(fp_num != '') %>% filter(birth_year != '') %>%
   group_by(birth_year, fp_num) %>% summarise(N=n()) %>%
@@ -242,7 +257,7 @@ move %>% filter(fp_num != '') %>% filter(birth_year != '') %>%
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
 
-#성별에 따른 유동인구
+#성별에 의한 유동인구
 move %>% filter(fp_num != '') %>% filter(sex != '') %>%
   group_by(sex, fp_num) %>% summarise(N=n()) %>%
   ggplot(aes(x=sex, y=N, fill=fp_num)) + 
@@ -254,7 +269,7 @@ move %>% filter(fp_num != '') %>% filter(sex != '') %>%
   theme(axis.title=element_text(size=15)) +
   theme(plot.title=element_text(hjust = 0.6, size=20, color="darkgreen"))
 
-#시간에 따른 유동인구
+#시간에 의한 유동인구
 move %>% filter(fp_num != '') %>% filter(hour != '') %>%
   group_by(hour, fp_num) %>% summarise(N=n()) %>%
   ggplot(aes(x=hour, y=N, fill=fp_num)) + 
