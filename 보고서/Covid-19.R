@@ -274,8 +274,7 @@ move %>% filter(fp_num != '') %>% filter(hour != '') %>%
   group_by(hour, fp_num) %>% summarise(N=n()) %>%
   ggplot(aes(x=hour, y=N, fill=fp_num)) + 
   ggtitle("floating population following hour") +
-  subti
-geom_line(lwd = 2) +
+  geom_line(lwd = 2) +
   geom_bar(stat="identity", position=position_dodge(), width = 0.5) +
   xlab(label = "hour") +
   ylab(label = "Floating population") +
