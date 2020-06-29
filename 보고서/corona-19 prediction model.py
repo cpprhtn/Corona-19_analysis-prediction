@@ -101,7 +101,7 @@ model.summary()
 #---------------------------------------------------------------------------
 '''
 
-#training 90% test 10% 배치10 에폭시 500 LSTM 90,30
+#training 90% test 10% 배치5 에폭시 500 LSTM 90,30
 
 #---------------------------------------------------------------------------
 
@@ -109,15 +109,15 @@ row = int(round(result.shape[0]*0.9))
 train = result[:row,:]
 #np.random.shuffle(train)
 
-x_train= train[:,:-1]
-x_train = np.reshape(x_train, (x_train.shape[0],x_train.shape[1],1))
+X_train= train[:,:-1]
+X_train = np.reshape(X_train, (X_train.shape[0],X_train.shape[1],1))
 y_train = train[:,-1]
 
-x_test = result[row:,:-1]
-x_test = np.reshape(x_test,(x_test.shape[0],x_test.shape[1],1))
+X_test = result[row:,:-1]
+X_test = np.reshape(X_test,(X_test.shape[0],X_test.shape[1],1))
 y_test = result[row:,-1]
 
-x_train.shape, x_test.shape
+X_train.shape, X_test.shape
 
 
 
@@ -137,20 +137,20 @@ model.summary()
 
 
 #training
-model.fit(x_train, y_train,
-   validation_data=(x_test, y_test),
-   batch_size=10,
+model.fit(X_train, y_train,
+   validation_data=(X_test, y_test),
+   batch_size=5,
    epochs=500)
 
 #prediction
-pred = model.predict(x_test)
+pred = model.predict(X_test)
 
 
 fig = plt.figure(facecolor = "white")
 ax = fig.add_subplot(111)
 ax.plot(y_test, label="True")
 ax.plot(pred, label="Prediction")
-ax.set_title("Covid-19 Prediction Model (훈련 90% 테스트 10% batch 10 epochs 500 LSTM 90)")
+ax.set_title("Covid-19 Prediction Model (훈련 90% 테스트 10% batch 5 epochs 500 LSTM 90)")
 ax.legend()
 plt.show()
 
@@ -185,7 +185,7 @@ for i in range(len(pred_svm)):
     pred_data.append((first_data + datetime.timedelta(days=i)).strftime('%m/%d/%Y'))
 
 # slightly modify the data to fit the model better
-X_train, X_test, Y_train, Y_test = train_test_split(days[50:], kor_cases[50:], test_size=0.05, shuffle=False) 
+X_train, X_test, Y_train, Y_test = train_test_split(days[60:], kor_cases[60:], test_size=0.05, shuffle=False) 
 
 
 """
