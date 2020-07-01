@@ -119,7 +119,7 @@ percent <- c("22.71","10.01","4.31","282.66","9.44","2.2","3.12","4.62","13.73",
 
 all <- data.frame(count,city,total,abroad,local,confirmed,isolation,unisolation,death,percent)
 
-#write.csv(all, "/Users/cpprhtn/Desktop/Occurrence_trend.csv")
+#write.csv(Kor_Data, "/Users/cpprhtn/Desktop/R_Kor_Data.csv")
 
 all <- all[c(2:19),]
 plot(all$city ,all$isolation,col="red",ylim=c(0:500))
