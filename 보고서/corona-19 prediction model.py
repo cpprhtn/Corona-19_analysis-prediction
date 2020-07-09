@@ -229,12 +229,12 @@ Polynomial Regression Predictions
 _______________________________________________________________________________
 
 """
-poly = PolynomialFeatures(degree=4)
+poly = PolynomialFeatures(degree=7)
 poly_X_train_confirmed = poly.fit_transform(X_train)
 poly_X_test_confirmed = poly.fit_transform(X_test)
 poly_future_forcast = poly.fit_transform(future_forcast)
 
-bayesian_poly = PolynomialFeatures(degree=4)
+bayesian_poly = PolynomialFeatures(degree=7)
 bayesian_poly_X_train_confirmed = bayesian_poly.fit_transform(X_train)
 bayesian_poly_X_test_confirmed = bayesian_poly.fit_transform(X_test)
 bayesian_poly_future_forcast = bayesian_poly.fit_transform(future_forcast)
@@ -254,7 +254,7 @@ print(linear_model.coef_) #coef_ 특성의 계수 확인
 plt.plot(Y_test)
 plt.plot(test_linear_pred)
 plt.legend(['Test Data', 'Polynomial Regression Predictions'])
-plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=4))")
+plt.title("Polynomial Regression Prediction (PolynomialFeatures(degree=7))")
 
 
 
@@ -278,6 +278,13 @@ normalize = [True, False]
 
 bayesian_grid = {'tol': tol, 'alpha_1': alpha_1, 'alpha_2' : alpha_2, 'lambda_1': lambda_1, 'lambda_2' : lambda_2, 
                  'normalize' : normalize}
+
+
+bayesian_poly = PolynomialFeatures(degree=4)
+bayesian_poly_X_train_confirmed = bayesian_poly.fit_transform(X_train)
+bayesian_poly_X_test_confirmed = bayesian_poly.fit_transform(X_test)
+bayesian_poly_future_forcast = bayesian_poly.fit_transform(future_forcast)
+
 
 bayesian = BayesianRidge(fit_intercept=False)
 bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=4, return_train_score=True, n_jobs=-1, n_iter=30, verbose=1)
