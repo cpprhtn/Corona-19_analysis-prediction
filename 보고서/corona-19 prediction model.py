@@ -287,7 +287,7 @@ bayesian_poly_future_forcast = bayesian_poly.fit_transform(future_forcast)
 
 
 bayesian = BayesianRidge(fit_intercept=False)
-bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=4, return_train_score=True, n_jobs=-1, n_iter=30, verbose=1)
+bayesian_search = RandomizedSearchCV(bayesian, bayesian_grid, scoring='neg_mean_squared_error', cv=5, return_train_score=True, n_jobs=-1, n_iter=30, verbose=1)
 bayesian_search.fit(bayesian_poly_X_train_confirmed, Y_train)
 
 bayesian_search.best_params_
