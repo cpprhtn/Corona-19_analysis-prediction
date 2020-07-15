@@ -14,6 +14,8 @@
 2. SVM
 3. Polynomial Regression
 4. Bayesian ridge polynomial regression
+
+
 ![LSTM0709](https://user-images.githubusercontent.com/63298243/87538268-e970b480-c6d6-11ea-8fbf-91c368284208.png)
 
 ![SVM0709](https://user-images.githubusercontent.com/63298243/87538290-f2fa1c80-c6d6-11ea-9db4-dcac4e7e319e.png)
