@@ -14,9 +14,10 @@
 2. SVM
 3. Polynomial Regression
 4. Bayesian ridge polynomial regression
+![LSTM0709](https://user-images.githubusercontent.com/63298243/87538268-e970b480-c6d6-11ea-8fbf-91c368284208.png)
+
+![SVM0709](https://user-images.githubusercontent.com/63298243/87538290-f2fa1c80-c6d6-11ea-9db4-dcac4e7e319e.png)
+
+![Polymonial Regression Predictions0709](https://user-images.githubusercontent.com/63298243/87538280-ee356880-c6d6-11ea-86ba-5f742a3786f7.png)
 
 ![Bayesian Ridge Polynomial Predictions0709](https://user-images.githubusercontent.com/63298243/87538111-a878a000-c6d6-11ea-8749-684b0a710778.png)
-
-* [t10k-labels-idx1-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/t10k-labels-idx1-ubyte.gz)
-* [train-images-idx3-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/train-images-idx3-ubyte.gz)
-* [train-labels-idx1-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/train-labels-idx1-ubyte.gz)
