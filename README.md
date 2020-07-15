@@ -15,3 +15,7 @@
 3. Polynomial Regression
 4. Bayesian ridge polynomial regression
 
+* [t10k-images-idx3-ubyte.gz](https://github.com/cpprhtn/Corona-19_analysis-prediction/blob/R/%EB%B3%B4%EA%B3%A0%EC%84%9C/%EC%98%88%EC%B8%A1%20%EC%9D%B4%EB%AF%B8%EC%A7%80/LSTM.png)
+* [t10k-labels-idx1-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/t10k-labels-idx1-ubyte.gz)
+* [train-images-idx3-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/train-images-idx3-ubyte.gz)
+* [train-labels-idx1-ubyte.gz](https://github.com/WegraLee/deep-learning-from-scratch/raw/master/dataset/train-labels-idx1-ubyte.gz)
