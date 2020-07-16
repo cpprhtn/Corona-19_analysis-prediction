@@ -55,4 +55,3 @@
 ![Polymonial Regression Predictions0709](https://user-images.githubusercontent.com/63298243/87538280-ee356880-c6d6-11ea-86ba-5f742a3786f7.png)
 
 ![Bayesian Ridge Polynomial Predictions0709](https://user-images.githubusercontent.com/63298243/87538111-a878a000-c6d6-11ea-8749-684b0a710778.png)
->>>>>>> e3210ea907e96649089ac826debaa7b65f276feb
