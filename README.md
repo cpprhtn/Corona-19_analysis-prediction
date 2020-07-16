@@ -1,9 +1,9 @@
 # Corona-19_analysis-prediction
 
-<<<<<<< HEAD
+
 ## 시작한 계기
-고2 겨울방학부터 R 공부를 시작
-고3 5월 초부터 Deep Learning 공부를 시작
+고2 겨울방학부터 R 공부를 시작<br>
+고3 5월 초부터 Deep Learning 공부를 시작<br>
 
 *코로나19*  가 사회적으로 큰 파장을 불러일으켰고,
 
@@ -16,16 +16,16 @@
 ## 사용된 언어
 
 ### *R*
-> 데이터 전처리
-> 시각화
-> 분석
+> 데이터 전처리 <br>
+> 시각화 <br>
+> 분석 <br>
 
 ### *Python*
-> 데이터 전처리
-> LSTM
-> SVM
-> Polynomial Regression
-> Bayesian ridge polynomial regression
+> 데이터 전처리 <br>
+> LSTM <br>
+> SVM <br>
+> Polynomial Regression <br>
+> Bayesian ridge polynomial regression <br>
 
 
 # 일지
