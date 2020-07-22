@@ -9,7 +9,7 @@
 
 데이터전처리, 데이터마이닝 연습을 위해 간단하게 시각화를 해보았었다.(4월 중순)
 
-이후 친구한명([SionHwang](https://github.com/SionHwang/COVID-19_forecast_prediction_model_in_ROK)) 과 예기하던중, 코로나 예측모델을 만들어보면 어떨까 해서, 5월중순에 다시 진행하게 되었다.
+이후 친구한명([SionHwang](https://github.com/SionHwang/COVID-19_forecast_prediction_model_in_ROK)) 과 이야기하던 중, 코로나 예측모델을 만들어보면 어떨까 해서, 5월중순에 다시 진행하게 되었다.
 
 
 ## 사용된 언어
@@ -35,6 +35,7 @@
 |04_18|R|Preprocessing data||
 |04_19|R|시각화1||
 |04_20|R|시각화2||
+|05_05|R|Corona distribute||
 |---|---|---|---|
 |05_17||Restart Project||
 |05_19|R, Python|Collecting data||
@@ -45,6 +46,24 @@
 |---|---|---|---|
 |06_06|R|시각화||
 |ㄴ|Python|Learning LSTM||
+|06_07|R|Make data -> Occurrence_trend.csv||
+|06_12|R|Visual data|https://www.kaggle.com/kimjihoo/coronavirusdataset/data?select=Weather.csv|
+|06_13|R|Analysis||
+|06_14|Python|Make ML Model||
+|ㄴ||Using Data|https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv|
+|ㄴ|Python|Create LSTM Model||
+|ㄴ|Python|Create SVM Model||
+|06_15|Python|Learning Polynomial Regression Model||
+|06_16|Python|Make ML Model||
+|ㄴ|Python|Create Polynomial Regression Model||
+|06_17|Python|Update ML Models||
+|06_18|Python|Update ML Models||
+|06_19|Python|Learning Bayesian Ridge Model||
+|ㄴ|Python|Create Bayesian Ridge Model||
+|06_20 ~ ||Finding Best Parameter about each models||
+|06_23 ~ ||Code cleanup||
+|07_09||Update Readme||
+
 =======
 
 ![LSTM0709](https://user-images.githubusercontent.com/63298243/87538268-e970b480-c6d6-11ea-8fbf-91c368284208.png)
