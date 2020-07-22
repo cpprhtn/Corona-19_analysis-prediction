@@ -9,9 +9,8 @@
 
 데이터전처리, 데이터마이닝 연습을 위해 간단하게 시각화를 해보았었다.(4월 중순)
 
-이후 친구한명 [SionHwang](https://github.com/SionHwang/COVID-19_forecast_prediction_model_in_ROK) 과 예기하던중, 코로나 예측모델을 만들어보면 어떨까 해서, 5월중순에 다시 진행하게 되었다.
+이후 친구한명([SionHwang](https://github.com/SionHwang/COVID-19_forecast_prediction_model_in_ROK)) 과 예기하던중, 코로나 예측모델을 만들어보면 어떨까 해서, 5월중순에 다시 진행하게 되었다.
 
-[SionHwang](https://github.com/SionHwang/COVID-19_forecast_prediction_model_in_ROK)
 
 ## 사용된 언어
 
