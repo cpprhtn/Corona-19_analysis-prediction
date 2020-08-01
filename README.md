@@ -1,6 +1,7 @@
 # Corona-19_analysis-prediction
 
-
+## 함께 만든사람
+- [황선우](https://github.com/SionHwang)
 ## 시작한 계기
 고2 겨울방학부터 R 공부를 시작<br>
 고3 5월 초부터 Deep Learning 공부를 시작<br>
