@@ -23,6 +23,63 @@
 
 우리는 이 문제에 대해 생각하며 여러 상황에서 활용할 수 있는 범용성을 가진 예측 모델을 구축하려 하였으나, 여러 방법을 사용하여 모델을 만들어야하는 등 범용성이 있는 모델을 만들기에는 많은 어려움이 있었다. 게다가 코로나19 예측모델에 대한 연구 및 자료가 부족하여 직접 구축 하기로 하였다. 따라서 데이터 분석을 통하여 여러 예측 모델을 만든 후 그에 따른 근사적 증가 추세를 파악해보려 한다.
 
+## R 데이터 분석
+- 1차 시각화
+![image](https://user-images.githubusercontent.com/43991816/92218404-07d37f00-eed4-11ea-9962-4170790072eb.png)
+- 3차 시각화
+![image](https://user-images.githubusercontent.com/43991816/92218597-508b3800-eed4-11ea-9374-c2d7abe637ca.png)
+
+
+### 1일 평균 증가량
+- 신천지 이전 
+ - #1.383183
+![image](https://user-images.githubusercontent.com/43991816/92218963-dd35f600-eed4-11ea-81e7-302b2da6049e.png)
+
+- 신천지 사태기간 (2/18 ~ 3/8)
+ - #462.3271
+![image](https://user-images.githubusercontent.com/43991816/92218980-e1621380-eed4-11ea-8a51-d53fe8c726a5.png)
+
+- 구로 콜센터 (3/9~3/25)
+ - #98.77206
+![image](https://user-images.githubusercontent.com/43991816/92219261-49b0f500-eed5-11ea-8914-38e432dec53b.png)
+
+- 사이 기간 (3/26~5/9)
+ - #25.53044
+![image](https://user-images.githubusercontent.com/43991816/92219356-6b11e100-eed5-11ea-9543-d8e472af1ffd.png)
+
+- 이태원 (5/10~5/15)
+ - #26.14286
+![image](https://user-images.githubusercontent.com/43991816/92219517-9eed0680-eed5-11ea-83a3-bb15bc7fb2e0.png)
+
+- 사이 기간2 5/16~5/26
+ - #21.4303
+![image](https://user-images.githubusercontent.com/43991816/92219598-c2b04c80-eed5-11ea-9730-303db802d513.png)
+
+- 쿠팡 집단감염 (5/27 ~)
+ - #38.5
+![image](https://user-images.githubusercontent.com/43991816/92219769-f7bc9f00-eed5-11ea-9464-bfe73ad70a3b.png)
+
+
+### 데이터 트랜드
+
+- 2019 검색 트랜드
+![image](https://user-images.githubusercontent.com/43991816/92218803-9d6f0e80-eed4-11ea-9e7b-c83890a7c2ab.png)
+- 2020 검색 트랜드
+![image](https://user-images.githubusercontent.com/43991816/92218812-a069ff00-eed4-11ea-85f3-1e34f44e473f.png)
+- 누적 확진자 성별
+![image](https://user-images.githubusercontent.com/43991816/92220005-4e29dd80-eed6-11ea-8743-b671dafa735f.png)
+- 연령& 성별
+![image](https://user-images.githubusercontent.com/43991816/92220337-d3ad8d80-eed6-11ea-9184-2ea850984cc9.png)
+- 성별에 따른 유동인구(수도권)
+![image](https://user-images.githubusercontent.com/43991816/92220108-70236000-eed6-11ea-881b-c5783da88f1b.png)
+- 성별에 따른 사망률
+![image](https://user-images.githubusercontent.com/43991816/92220143-7c0f2200-eed6-11ea-8790-146ca17210c4.png)
+- 시간에 따른 유동인구
+![image](https://user-images.githubusercontent.com/43991816/92220230-a7920c80-eed6-11ea-8270-c7a5af129ef8.png)
+- 연령에 따른 유동인구
+![image](https://user-images.githubusercontent.com/43991816/92220277-bc6ea000-eed6-11ea-8a55-9ff75da1686b.png)
+
+
 ## 사용한 모델 별 장단점
 
 우리는 **LSTM, SVM, Polynomial Regression, Bayesian ridge polynomial regression**을 사용하였다.   
