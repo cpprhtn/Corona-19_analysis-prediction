@@ -8,9 +8,6 @@ Created on Sun Sep 20 12:56:07 2020
 
 
 
-'''
-This script shows how to predict stock prices using a basic RNN
-'''
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,8 +18,8 @@ tf.set_random_seed(777)
 
 
 # train Parameters
-seq_length = 8
-data_dim = 2
+seq_length = 7
+data_dim = 3
 hidden_dim = 15
 output_dim = 1
 learning_rate = 0.01
@@ -41,7 +38,7 @@ xy = xy.values[1:].astype(np.float)
 xy = xy[::-1]  # reverse order (chronically ordered)
 
 # train/test split
-train_size = int(len(xy) * 0.8)
+train_size = int(len(xy) * 0.7)
 train_set = xy[0:train_size]
 test_set = xy[train_size - seq_length:]  # Index from [train_size - seq_length] to utilize past sequence
 
@@ -84,3 +81,11 @@ cell = tf.contrib.rnn.BasicLSTMCell(
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 Y_pred = tf.contrib.layers.fully_connected(
     outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
+'''
+# build a BasicRNN network
+cell = tf.contrib.rnn.BasicRNNCell(
+    num_units=hidden_dim, activation=tf.nn.relu)
+outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
+Y_pred = tf.contrib.layers.fully_connected(
+    outputs[:, -1], output_dim, activation_fn=None)  # We use the last cell's output
+'''

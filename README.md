@@ -204,6 +204,7 @@
 |09_12|Python|test.py||
 |09_13|Python|Update test.py||
 |09_19|Python|Make new model, Using TF|https://www.tensorflow.org/api_docs/python/tf/compat/v1/nn/rnn_cell|
+|09_20|Python|Error|ValueError: Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope?|
 
 ===================================================================================
 
