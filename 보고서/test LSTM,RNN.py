@@ -82,11 +82,6 @@ cell = tf.contrib.rnn.BasicRNNCell(num_units=hidden_dim, activation=tf.nn.relu)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)
 '''
-#RNN
-cell = tf.contrib.rnn.RNNCell(num_units=hidden_dim, activation=tf.nn.relu)
-outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
-Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)
-
 
 
 #cost/loss
