@@ -70,7 +70,7 @@ iterations = 10000
 cell = tf.contrib.rnn.BasicLSTMCell(num_units=hidden_dim, state_is_tuple=True, activation=tf.nn.relu)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)
-'''
+
 
 #LSTM
 cell = tf.contrib.rnn.LSTMCell(num_units=hidden_dim, state_is_tuple=True, activation=tf.nn.relu)
@@ -81,7 +81,7 @@ Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activatio
 cell = tf.contrib.rnn.BasicRNNCell(num_units=hidden_dim, activation=tf.nn.relu)
 outputs, _states = tf.nn.dynamic_rnn(cell, X, dtype=tf.float32)
 Y_pred = tf.contrib.layers.fully_connected(outputs[:, -1], output_dim, activation_fn=None)
-'''
+
 
 
 #cost/loss
@@ -122,7 +122,7 @@ with tf.Session() as sess:
     plt.plot(test_predict, label="Prediction")
     plt.xlabel("Date")
     plt.ylabel("Increase")
-    plt.title("LSTM Prediction", fontsize=20)
+    plt.title("BasicRNN Prediction", fontsize=20)
     plt.legend()
     plt.show()
 
@@ -166,7 +166,12 @@ RMSE: 0.2377423197031021
 처음엔 다운피팅 끝에는 오버피팅 경향
 '''
 
+#BasicRNN
+'''
+RMSE: 0.2378769814968109
 
+낫 베드
+'''
 
 
 
