@@ -196,6 +196,14 @@
 |06_20 ~ ||Finding Best Parameter about each models||
 |06_23 ~ ||Code cleanup||
 |07_09||Update Readme||
+|07_10||''||
+|07_15||test||
+|08_02||Preparing a new model||
+|ㄴ||error correction||
+|09_04|Python|Covid.csv update||
+|09_12|Python|test.py||
+|09_13|Python|Update test.py||
+|09_19|Python|Make new model, Using TF|https://www.tensorflow.org/api_docs/python/tf/compat/v1/nn/rnn_cell|
 
 ===================================================================================
 
