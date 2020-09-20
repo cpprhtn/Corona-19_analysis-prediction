@@ -205,7 +205,7 @@
 |09_13|Python|Update test.py||
 |09_19|Python|Make new model, Using TF|https://www.tensorflow.org/api_docs/python/tf/compat/v1/nn/rnn_cell|
 |09_20|Python|Error|ValueError: Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope?|
-
+|ㄴ|||https://stackoverflow.com/questions/47296969/valueerror-variable-rnn-basic-rnn-cell-kernel-already-exists-disallowed-did-y|
 ===================================================================================
 
 ![LSTM0709](https://user-images.githubusercontent.com/63298243/87538268-e970b480-c6d6-11ea-8fbf-91c368284208.png)
