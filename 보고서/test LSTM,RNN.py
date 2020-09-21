@@ -61,7 +61,7 @@ data_dim = 3
 X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
 Y = tf.placeholder(tf.float32, [None, 1])
 
-hidden_dim = 64
+hidden_dim = 32
 output_dim = 1
 learning_rate = 0.01
 iterations = 10000
@@ -148,6 +148,8 @@ BasicLSTM_RMSE: 0.36206287145614624
 '''
 
 
+
+
 # hidden layer -> 64
 
 #BasicLSTM
@@ -175,7 +177,14 @@ RMSE: 0.2378769814968109
 
 
 
+# hidden layer -> 32
 
+#BasicRNN
+'''
+RMSE: 0.25204241275787354
+
+25~30구간이 문제
+'''
 
 
 
