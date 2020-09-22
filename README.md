@@ -210,6 +210,8 @@
 
 ===================================================================================
 
+07월 09일날 기준
+
 ![LSTM0709](https://user-images.githubusercontent.com/63298243/87538268-e970b480-c6d6-11ea-8fbf-91c368284208.png)
 
 ![SVM0709](https://user-images.githubusercontent.com/63298243/87538290-f2fa1c80-c6d6-11ea-9db4-dcac4e7e319e.png)
@@ -217,3 +219,14 @@
 ![Polymonial Regression Predictions0709](https://user-images.githubusercontent.com/63298243/87538280-ee356880-c6d6-11ea-86ba-5f742a3786f7.png)
 
 ![Bayesian Ridge Polynomial Predictions0709](https://user-images.githubusercontent.com/63298243/87538111-a878a000-c6d6-11ea-8749-684b0a710778.png)
+
+
+===================================================================================
+
+09월 18일날 기준
+
+![TF_BasicLSTM0918_64](https://user-images.githubusercontent.com/63298243/93899532-6485c500-fd2f-11ea-89fd-8656df5fa1b8.png)
+
+![TF_LSTM0918_64](https://user-images.githubusercontent.com/63298243/93899549-66e81f00-fd2f-11ea-99b6-6d9a377b793f.png)
+
+![TF_BasicRNN0918_64](https://user-images.githubusercontent.com/63298243/93899559-68b1e280-fd2f-11ea-8be4-b35a64e0e659.png)
